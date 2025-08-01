@@ -1,36 +1,49 @@
 package ru.top;
 
-import java.util.Arrays;
+import ru.top.controller.GroupController;
+import ru.top.controller.SubjectController;
+import ru.top.controller.TeacherController;
+import ru.top.service.GroupService;
+import ru.top.service.SubjectService;
+import ru.top.service.TeacherService;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-//        1) Есть 2 массива в отсортированном виде
-//        { -10,-5,0,1,1,2,2,3,3,6,6,7,7,7,8,9,11,22,45,678,1000,1010,1100}
-//        Нельзя использовать сортировку
-        // 1 for 1 if , else
 
-        int[] arr = {-5, 0, 1, 1, 2, 3, 6, 8, 22, 45, 678};
-        int[] arr2 = {-10, 2, 3, 6, 7, 7, 7, 9, 11, 1000, 1010, 1100};
-        int[] arr3 = twoArr(arr, arr2);
+        GroupService groupService = new GroupService();
+        SubjectService subjectService = new SubjectService();
+        TeacherService teacherService = new TeacherService();
 
-        System.out.println(Arrays.toString(arr3));
+        GroupController groupController = new GroupController(groupService);
+        SubjectController subjectController = new SubjectController(subjectService);
+        TeacherController teacherController = new TeacherController(teacherService);
+        Scanner sc = new Scanner(System.in);
 
-    }
 
-    public static int[] twoArr(int[] one, int[] two) {
-
-        int[] arr = new int[one.length + two.length];
-        int i = 0, j = 0;
-
-        for (int k = 0; k < arr.length; k++) {
-            if (j >= two.length || (i < one.length && one[i] < two[j])) {
-                arr[k] = one[i];
-                i++;
-            } else {
-                arr[k] = two[j];
-                j++;
+        while (true) {
+            System.out.println("===Меню===");
+            System.out.println("1 - Преподаватели");
+            System.out.println("2 - Дисциплины");
+            System.out.println("3 - Группы");
+            System.out.println("0 - Выйти");
+            switch (sc.nextInt()) {
+                case 1:
+                    teacherController.startTeacher();
+                    break;
+                case 2:
+                    subjectController.startSubject();
+                    break;
+                case 3:
+                    groupController.startGroup();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Неверный символ");
+                    break;
             }
         }
-        return arr;
     }
 }
